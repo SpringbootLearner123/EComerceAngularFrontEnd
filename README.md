@@ -57,3 +57,28 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+# E-Commerce Product Management App
+
+This is a full-stack web application that allows users to log in, register, and manage a list of products. The frontend is developed using *Angular, and the backend is built with **Python* (Flask or Django).
+
+## 🚀 Features
+
+- ✅ User Login with Username & Password
+- ✅ User Registration API
+- ✅ View All Products
+- ✅ Add New Product
+- ✅ Delete Product
+- ✅ Search Product by Name or Details
+
+## 🧩 Tech Stack
+
+### Frontend
+- *Angular* (TypeScript)
+- HTML, CSS
+
+### Backend
+- *Python* (Flask or Django)
+- REST APIs
+
+## 📂 Project Structure (Overview)
