@@ -3,6 +3,7 @@ import { DashboardServiceService } from '../dashboard-service.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +24,9 @@ export class DashboardComponent implements OnInit {
   addProductsForm!: FormGroup;
   searchForm!: FormGroup;
 
-  constructor(private _dashboardService : DashboardServiceService){}
+  constructor(private _dashboardService : DashboardServiceService,
+    private router: Router
+  ){}
 
   ngOnInit(): void {
     this.getAllProducts();
@@ -92,5 +95,9 @@ export class DashboardComponent implements OnInit {
 
   onSelectionChange(){
     this.getAllProducts();
+  }
+
+  openChatBoat(){
+    this.router.navigate(["dashboard/chat"])
   }
 }
