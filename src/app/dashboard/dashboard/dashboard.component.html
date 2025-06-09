@@ -7,48 +7,69 @@
 
   <!-- Search -->
   <div class="mb-3">
-    <input type="text" [(ngModel)]="searchTerm" class="form-control" placeholder="Search products..." />
+    <input type="text" class="form-control" placeholder="Search products..." />
   </div>
 
   <!-- Product Table -->
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered align-middle text-center">
-      <thead class="table-dark">
-        <tr>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Category</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of filteredProducts()">
-          <td>{{ product.name }}</td>
-          <td>{{ product.price }}</td>
-          <td>{{ product.category }}</td>
-          <td>
-            <button class="btn btn-sm btn-warning me-1" (click)="editProduct(product)">Edit</button>
-            <button class="btn btn-sm btn-danger" (click)="deleteProduct(product.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+
+  <div class="mat-elevation-z8">
+  <table mat-table [dataSource]="ProductDatasource">
+
+    <!-- Product Id Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Product Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+     <!-- Product name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Product Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Product price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Product Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+    </ng-container>
+
+    <!-- Product price Column -->
+    <ng-container matColumnDef="img">
+      <th mat-header-cell *matHeaderCellDef> Product Image </th>
+      <td mat-cell *matCellDef="let element"> {{element.img}} </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element">
+        <button (clcik)="deleteItem(element.id)">Delete Item</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="productsTableColumnName"></tr>
+    <tr mat-row *matRowDef="let row; columns: productsTableColumnName;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
 </div>
 
 <!-- Add Product Modal -->
 <div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form (ngSubmit)="addProduct()">
+      <form >
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title">Add Product</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <input [(ngModel)]="newProduct.name" name="name" required class="form-control mb-2" placeholder="Product Name" />
-          <input [(ngModel)]="newProduct.price" name="price" required type="number" class="form-control mb-2" placeholder="Price" />
-          <input [(ngModel)]="newProduct.category" name="category" required class="form-control mb-2" placeholder="Category" />
+          <input name="name" required class="form-control mb-2" placeholder="Product Name" />
+          <input name="price" required type="number" class="form-control mb-2" placeholder="Price" />
+          <input name="category" required class="form-control mb-2" placeholder="Category" />
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save Product</button>

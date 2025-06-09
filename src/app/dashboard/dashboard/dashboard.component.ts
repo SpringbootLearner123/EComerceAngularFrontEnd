@@ -1,59 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DashboardServiceService } from '../dashboard-service.service';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [ MatTableModule,MatPaginatorModule,],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
-   // Product list (in-memory, for now)
-  products = [
-    { id: 1, name: 'Apple', price: 1.2, category: 'Fruit' },
-    { id: 2, name: 'Milk', price: 0.99, category: 'Dairy' }
-  ];
+  // Table header details
+  productsTableColumnName = ["id","name","price","img","action"]
+    @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
 
-  // Form input (bound via ngModel)
-  newProduct:any = {
-    name: '',
-    price: null,
-    category: ''
-  };
+  allProductsList: any;
+  ProductDatasource: any;
 
-  // Search term for filtering
-  searchTerm = '';
+  constructor(private _dashboardService : DashboardServiceService){}
 
-  // Add product (called when form submits)
-  addProduct() {
-    const id = this.products.length > 0
-      ? Math.max(...this.products.map(p => p.id)) + 1
-      : 1;
-
-    this.products.push({ id, ...this.newProduct });
-
-    // Reset form
-    this.newProduct = { name: '', price: null, category: '' };
-
-    // Close modal
-    const modal = document.getElementById('addProductModal');
-    if (modal) (window as any).bootstrap.Modal.getInstance(modal).hide();
+  ngOnInit(): void {
+    this.getAllProducts();
   }
 
-  // Delete product by id
-  deleteProduct(id: number) {
-    this.products = this.products.filter(p => p.id !== id);
+
+  // Get all products
+  getAllProducts(){
+    this._dashboardService.getAllProducts().subscribe({
+      next : (res:any) =>{
+        console.log(res);
+        this.allProductsList = res;
+        this.ProductDatasource = new MatTableDataSource(this.allProductsList);
+        this.ProductDatasource.paginator = this.paginator;
+
+      }
+    })
   }
 
-  // Simple edit alert
-  editProduct(product: any) {
-    alert(`Edit not implemented yet for: ${product.name}`);
-  }
-
-  // Filter products by search term
-  filteredProducts() {
-    return this.products.filter(product =>
-      product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+  deleteItem(id : any){
+    console.log("Product deleted succesfully ",id)
   }
 }
