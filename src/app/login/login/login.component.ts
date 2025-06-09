@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
       next : (res : any)  =>{
        
         if(res.success){
+          sessionStorage.setItem('auth', btoa(`${payload.username}:${payload.password}`));
           localStorage.setItem('user', JSON.stringify(res));
           this.router.navigate(['/dashboard']);
         }

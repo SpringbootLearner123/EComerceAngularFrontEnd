@@ -13,4 +13,8 @@ export class DashboardServiceService {
   getAllProducts(){
     return this.http.get(this.baseUrl+"/products/");
   }
+
+  addProducts(){
+    return this.http.get(this.baseUrl+"/products/add/");
+  }
 }
